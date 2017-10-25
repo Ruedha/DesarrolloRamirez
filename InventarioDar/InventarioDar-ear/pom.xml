@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>InventarioDar</artifactId>
+		<groupId>InventarioDar</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>InventarioDar-ear</groupId>
+	<artifactId>InventarioDar-ear</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>ear</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>InventarioDar-Web</groupId>
+			<artifactId>InventarioDar-Web</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+	
+	<build>
+
+		<!-- nombre del ear -->
+		<finalName>InventarioDar</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<!-- especificar la version de java EE -->
+					<version>6</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<modules>
+						<!-- modulo web que estara contenido en el ear -->
+						<webModule>
+							<groupId>InventarioDar-Web</groupId>
+							<artifactId>InventarioDar-Web</artifactId>
+							<!-- Nombre con el cual se llamara la pagina -->
+							<contextRoot>/InventarioDar</contextRoot>
+						</webModule>
+					</modules>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+</project>

@@ -1,0 +1,146 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="formEditarUsuario">
+
+			<p:panel id="panelBasico" header="Editar usuario">
+				<p:messages id="messages" autoUpdate="true" closable="true"
+					style="font-size: 15px;" />
+
+				<p:panel id="basic">
+
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+					<h3>Busqueda</h3>
+
+
+					<h:panelGrid columns="3" id="panelGridCamposEditar">
+
+						<p:outputLabel value="Login: " for="login" />
+						<p:inputText id="login" value="#{userAction.loginEditar}"
+							label="login" required="true"
+							requiredMessage="- El campo Login no puede ser nulo para la busqueda."></p:inputText>
+
+
+						<p:commandLink
+							actionListener="#{userAction.mostrarDatosUsuarioEditar}"
+							ajax="false" update="@form">
+							<p:graphicImage value="/Imagenes/Buscar.png">
+							</p:graphicImage>
+						</p:commandLink>
+
+					</h:panelGrid>
+				</p:panel>
+				<p:separator />
+				<p:panel id="datosUsuario"
+					rendered="#{userAction.visibleDatosUsuario}">
+					<h3>Datos del usuario</h3>
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<p:outputLabel value="Nombres:" for="nombre" />
+						<p:inputText id="nombre" value="#{userAction.nombreEditar}"
+							label="nombre" required="true"
+							requiredMessage="- El campo nombre no puede ser nulo."
+							validatorMessage="- Solo letras en el campo nombre.">
+
+							<f:validateRegex pattern="[a-zA-Z ]+" />
+						</p:inputText>
+
+						<p:outputLabel value="Primer apellido:" for="apellidos" />
+						<p:inputText id="apellidos"
+							value="#{userAction.primerApellidoEditar}" required="true"
+							requiredMessage="- El campo primer apellido no puede ser nulo."
+							label="apellidos"
+							validatorMessage="- Solo letras en el campo Primer apellido.">
+							<f:validateRegex pattern="[a-zA-Z ]+" />
+						</p:inputText>
+
+						<p:outputLabel value="Segundo apellido:" for="apellidos2" />
+						<p:inputText id="apellidos2"
+							value="#{userAction.segundoApellidoEditar}" required="true"
+							requiredMessage="- El campo segundo apellido no puede ser nulo."
+							label="apellidos2"
+							validatorMessage="- Solo letras en el campo Segundo apellido.">
+							<f:validateRegex pattern="[a-zA-Z ]+" />
+						</p:inputText>
+
+						<p:outputLabel value="Cedula: " for="identificacion" />
+						<p:inputText id="identificacion"
+							value="#{userAction.cedulaEditar}" label="identificacion"
+							required="true"
+							validatorMessage="- Se deben ingresar solo numeros en el campo Cedula"
+							requiredMessage="- El campo cedula no puede ser nulo.">
+							<f:validateRegex pattern="[0-9]*" />
+						</p:inputText>
+
+						<p:outputLabel value="Email: *" for="email" />
+						<p:inputText id="email" value="#{userAction.emailEditar}"
+							label="email" requiredMessage="El Email es requerido."
+							validatorMessage="- Formato de email invalido.">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+
+						<p:outputLabel value="Password:" for="passwor" />
+						<p:password id="passwor" value="#{userAction.contrasenaEditar}"
+							required="true" redisplay="true"
+							requiredMessage="- El campo password no puede ser nulo."
+							label="passwor"></p:password>
+
+						<p:outputLabel value="Estado:" for="estado" />
+						<p:inputText id="estado" value="#{userAction.estadoEditar}"
+							label="estado" disabled="true"></p:inputText>
+
+						<p:outputLabel value="Administrador " />
+						<p:selectBooleanCheckbox value="#{userAction.administradorEditar}"
+							id="idCheck">
+						</p:selectBooleanCheckbox>
+						<p:outputLabel value="Hookah " />
+						<p:selectBooleanCheckbox value="#{userAction.usuarioHookahEditar}"
+							id="idCheck3">
+						</p:selectBooleanCheckbox>
+
+
+					</h:panelGrid>
+					<br></br>
+					<p:commandButton value="Editar" icon="ui-icon-pencil"
+						action="#{userAction.editarUsuario}" update="@form">
+						<p:confirm header="Confirmar" message="Esta seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Si" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+
+
+
+				</p:panel>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>

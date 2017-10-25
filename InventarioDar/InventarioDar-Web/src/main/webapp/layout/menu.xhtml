@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:form>
+
+	<p:panelMenu>
+		<p:submenu label="Usuarios"
+			rendered="#{sesionAction.usuarioSesion.administrador}"
+			style="font-size: 15px; text-align: start;width: 230px;">
+			<p:submenu label="Administrar">
+				<p:submenu label="Usuarios"
+					rendered="#{sesionAction.usuarioSesion.administrador}">
+
+					<p:menuitem value="Listado de usuarios"
+						action="#{userAction.limpiarCamposListar()}" ajax="false"
+						update="@form" />
+
+					<p:menuitem value="Crear Usuario"
+						action="#{userAction.limpiarCampos()}" ajax="false" update="@form" />
+
+					<p:menuitem value="Activar/Inactivar"
+						action="#{userAction.iniciarPaginaCambiarEstado()}" ajax="false"
+						update="@form" />
+
+					<p:menuitem value="Editar"
+						action="#{userAction.limpiarCamposEditar}" ajax="false"
+						update="@form" />
+				</p:submenu>
+
+			</p:submenu>
+
+		</p:submenu>
+
+		<p:submenu label="Productos"
+			rendered="#{sesionAction.usuarioSesion.administrador}"
+			style="font-size: 15px; text-align: start;width: 230px;">
+
+
+
+			<p:menuitem value="Administrar Marcas"
+				action="#{tipoProductoAction.redirigir}" ajax="false"
+				update="content" process="@this" />
+
+			<p:menuitem value="Administrar Producto"
+				action="#{productoAction.limpiarCampos(sesionAction.usuarioSesion)}"
+				ajax="false" update="@form" />
+
+			<p:menuitem value="Registrar Entradas"
+				action="#{entradaAction.limpiarCampos(sesionAction.usuarioSesion)}"
+				ajax="false" update="@form" />
+
+			<p:menuitem value="Registrar Salidas"
+				action="#{salidaAction.limpiarCampos(sesionAction.usuarioSesion)}"
+				ajax="false" update="@form" />
+		</p:submenu>
+
+		<p:submenu label="Proveedores"
+			rendered="#{sesionAction.usuarioSesion.administrador}"
+			style="font-size: 15px; text-align: start;width: 230px;">
+
+			<p:menuitem value="Administrar proveedores"
+				action="#{proveedorAction.redirigir}" ajax="false" update="@form" />
+
+		</p:submenu>
+		
+		<p:submenu label="Empleados"
+			rendered="#{sesionAction.usuarioSesion.administrador}"
+			style="font-size: 15px; text-align: start;width: 230px;">
+
+			<p:menuitem value="Administrar empleados"
+				action="#{empleadoAction.redirigir}" ajax="false" update="@form" />
+
+		</p:submenu>
+
+		<p:submenu label="Bodegas"
+			rendered="#{sesionAction.usuarioSesion.administrador}"
+			style="font-size: 15px; text-align: start;width: 230px;">
+
+			<p:menuitem value="Administrar Bodegas"
+				action="#{bodegaAction.redirigir}" ajax="false" update="@form" />
+
+		</p:submenu>
+
+		<p:submenu label="Bartender"
+			rendered="#{sesionAction.usuarioSesion.administrador}"
+			style="font-size: 15px; text-align: start;width: 230px;">
+
+			<p:menuitem value="Control Bartender"
+				action="#{bartenderAction.limpiarCampos}" ajax="false"
+				update="@form" />
+
+
+		</p:submenu>
+
+
+
+		<p:submenu label="Informes" style="font-size: 15px;text-align: start;">
+
+			<p:menuitem value="Stock de productos"
+				action="#{informesAction.redirigirInformeStock}" ajax="false"
+				update="@form" />
+			<p:menuitem value="Informe Entradas"
+				action="#{informesAction.redirigirInformeEntradas}" ajax="false"
+				update="@form" />
+			<p:menuitem value="Informe Salidas"
+				action="#{informesAction.redirigirInformeSalidas}" ajax="false"
+				update="@form" />
+
+			<p:menuitem value="Informe Bartender"
+				action="#{informesAction.listarBartenders}" ajax="false"
+				update="@form" />
+		</p:submenu>
+
+		<p:submenu label="Salir" style="font-size: 15px;text-align: start;">
+			<p:menuitem value="Cerrar Sesion" action="#{sesionAction.logout}"
+				update="@form" icon="ui-icon-disk" />
+		</p:submenu>
+	</p:panelMenu>
+</h:form>
+
+</html>
+
+

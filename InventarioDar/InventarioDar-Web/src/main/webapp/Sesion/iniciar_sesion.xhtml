@@ -1,0 +1,56 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template2.xhtml">
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="body">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasic" header="Iniciar Sesion" style="width">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+
+				<p:panel id="basic">
+
+					<h:panelGrid columns="2">
+
+						<p:outputLabel value="Login:" />
+						<p:inputText id="codigoArea" value="#{sesionAction.login}"></p:inputText>
+
+						<p:outputLabel value="Password:" />
+						<p:password id="codigoDescripcion"
+							value="#{sesionAction.password}"></p:password>
+
+
+						<p:commandButton value="Iniciar " icon="ui-icon-check"
+							action="#{sesionAction.iniciarSesion()}" update="@form"></p:commandButton>
+
+						<p:commandButton value="Cancelar"
+							action="#{sesionAction.redirigir}" update="@form">
+						</p:commandButton>
+					</h:panelGrid>
+
+					<p:separator />
+
+
+				</p:panel>
+
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>

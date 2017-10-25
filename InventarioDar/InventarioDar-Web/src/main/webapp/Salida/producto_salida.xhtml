@@ -1,0 +1,166 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasico" header="Registrar Salidas">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<h:outputText value="Producto" />
+						<p:selectOneMenu value="#{salidaAction.idProducto}"
+							id="seguroSelectOneMenu" var="producto" filter="true"
+							filterMatchMode="startsWith" navigator="true" effect="fade"
+							style="width: 269px;">
+
+							<p:ajax update="@form"
+								listener="#{salidaAction.habilitarTabla()}" />
+
+							<f:selectItem itemValue="#{null}"
+								itemLabel="Seleccione el Producto" />
+
+							<f:selectItems value="#{salidaAction.listaProductos}"
+								var="producto" itemLabel="#{producto.nombre}"
+								itemValue="#{producto}" />
+							<p:column>
+								<h:outputText value="#{producto.nombre} - #{producto.presentacion}" />
+							</p:column>
+						</p:selectOneMenu>
+
+
+						<h:outputText value="Bodega" />
+						<p:selectOneMenu value="#{salidaAction.idBodega}"
+							id="bodegaSelectOneMenu" var="bodega" filter="true"
+							filterMatchMode="startsWith" navigator="true" effect="fade"
+							style="width: 269px;">
+
+							<f:selectItem itemValue="#{null}"
+								itemLabel="Seleccione la bodega" />
+
+							<f:selectItems value="#{salidaAction.listaBodegas}" var="bodega"
+								itemLabel="#{bodega.nombre}" itemValue="#{bodega}" />
+							<p:column>
+								<h:outputText value="#{bodega.nombre}" />
+							</p:column>
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Destino" for="destino" />
+						<p:inputText id="destino" value="#{salidaAction.destino}"
+							label="destino" required="true"
+							requiredMessage="- El campo destino es obligatorio.">
+						</p:inputText>
+
+						<p:outputLabel value="Precio (Unitario) $" for="precio" />
+						<p:inputText id="precio" value="#{salidaAction.precio}"
+							label="precio" required="true" disabled="true"
+							requiredMessage="- El campo precio es obligatorio.">
+							<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+						</p:inputText>
+
+						<p:outputLabel value="Cantidad" for="cantidad" />
+						<p:inputText id="cantidad" value="#{salidaAction.cantidad}"
+							label="cantidad" required="true"
+							requiredMessage="- El campo cantidad es obligatorio.">
+
+						</p:inputText>
+
+
+					</h:panelGrid>
+
+					<br></br>
+
+					<p:commandButton value="Registrar" icon="ui-icon-check"
+						action="#{salidaAction.registrarSalida}" update="@form">
+						<p:confirm header="Confirmar" message="Esta seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Si" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+					<br></br>
+					<br></br>
+
+					<p:dataTable id="tablaDetalle"
+						rendered="#{salidaAction.detalleProducto}"
+						value="#{salidaAction.listaProductoSeleccionado}" var="prod"
+						style="font-size:12pt;" widgetVar="det" scrollable="true"
+						scrollWidth="950">
+
+						<p:column headerText="Presentacion" width="100">
+							<h:outputText value="#{prod.presentacion}" />
+						</p:column>
+
+						<p:column headerText="Codigo" width="100">
+							<h:outputText value="#{prod.codigo}" />
+						</p:column>
+						<p:column headerText="Nombre" width="100">
+							<h:outputText value="#{prod.nombre}" />
+						</p:column>
+						<p:column headerText="Precio Promedio" width="100">
+							$<h:outputText value="#{salidaAction.precioSugerido}">
+								<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Stock Minimo" width="100">
+							<h:outputText value="#{prod.stockMinimo}" />
+						</p:column>
+						<p:column headerText="Saldo actual" width="100">
+							$<h:outputText value="#{prod.saldoActual}">
+								<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Stock actual" width="100">
+							<h:outputText value="#{prod.cantidad}">
+
+							</h:outputText>
+						</p:column>
+
+
+
+					</p:dataTable>
+
+
+					<br></br>
+
+
+
+				</p:panel>
+
+				<br></br>
+
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>
+

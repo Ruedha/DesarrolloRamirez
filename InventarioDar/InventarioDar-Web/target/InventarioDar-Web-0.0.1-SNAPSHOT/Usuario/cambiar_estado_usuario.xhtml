@@ -1,0 +1,96 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="formInactivarUsuario">
+
+			<p:panel id="panelBasico" header="Cambiar Estado del usuario">
+				<p:messages id="messages" autoUpdate="true" closable="true"
+					style="font-size: 15px;" />
+
+				<p:panel id="basic">
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+					<h3>Busqueda</h3>
+
+
+					<h:panelGrid columns="3" id="panelGridCamposInactivarS">
+
+						<p:outputLabel value="Login: " for="login" />
+						<p:inputText id="login" value="#{userAction.loginInactivar}"
+							label="login" required="true"
+							requiredMessage="- El campo Login no puede ser nulo para la busqueda."></p:inputText>
+
+
+						<p:commandLink
+							actionListener="#{userAction.mostrarDatosParaCambiarEstado}"
+							update="@form" ajax="false">
+							<p:graphicImage value="/Imagenes/Buscar.png">
+							</p:graphicImage>
+						</p:commandLink>
+
+					</h:panelGrid>
+				</p:panel>
+				<p:separator />
+				<p:panel id="datosUsuario"
+					rendered="#{userAction.estadoPanelActivarInactivar}">
+					<h3>Datos del usuario</h3>
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<p:outputLabel value="Nombre completo:" for="nombre" />
+						<p:inputText id="nombre"
+							value="#{userAction.nombreIntegradoInactivar}" label="nombre"
+							required="true" disabled="true"
+							requiredMessage="- El campo Numero de identificacion no puede ser nulo."></p:inputText>
+
+
+
+					</h:panelGrid>
+
+
+					<br></br>
+
+					<p:commandButton value="#{userAction.textoBoton()}"
+						icon="ui-icon-pencil" action="#{userAction.cambiarEstado}"
+						update="@form">
+						<p:confirm header="Confirmar"
+							message="Esta seguro de realizar el cambio?" icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:commandButton value="Cancelar" icon="ui-icon-circle-close"
+						action="#{userAction.iniciarPaginaCambiarEstado()}" update="@form"></p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Si" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+
+
+
+				</p:panel>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>

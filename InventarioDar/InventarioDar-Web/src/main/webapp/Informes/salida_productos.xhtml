@@ -1,0 +1,143 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasico" header="Movimientos de salida de productos">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+
+					<br></br>
+
+
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<p:outputLabel value="Fecha Inicial: " for="fechaIni" />
+
+						<p:calendar id="fechaIni" yearRange="c-80:c+20"
+							value="#{informesAction.fechaInicial}" timeZone="GMT-5"
+							pattern="dd/MM/yyyy 00:00:00" />
+
+						<p:outputLabel value="Fecha Final: " for="fechaFin" />
+
+						<p:calendar id="fechaFin" yearRange="c-80:c+20"
+							value="#{informesAction.fechaFinal}" timeZone="GMT-5"
+							pattern="dd/MM/yyyy 23:59:00" />
+
+						<h:outputText value="Familia" />
+						<p:selectOneMenu value="#{informesAction.codigoTipo}"
+							id="seguroSelectOneMenu" var="producto" filter="true"
+							filterMatchMode="startsWith" navigator="true" effect="fade"
+							style="width: 269px;">
+
+							<f:selectItem itemValue="#{null}"
+								itemLabel="Seleccione el Tipo de Producto" />
+
+							<f:selectItems value="#{informesAction.listaTipoProductos}"
+								var="producto" itemLabel="#{producto.codigo}"
+								itemValue="#{producto}" />
+							<p:column>
+								<h:outputText value="#{producto.codigo}" />
+							</p:column>
+						</p:selectOneMenu>
+						<p:commandButton value="Buscar" icon="ui-icon-check"
+							action="#{informesAction.listarSalidasXTipoOFecha}"
+							update="@form">
+
+						</p:commandButton>
+
+
+					</h:panelGrid>
+					<br></br>
+					<br></br>
+					<br></br>
+
+					<p:dataTable id="tablaStock" value="#{informesAction.listaSalidas}"
+						var="prod" style="font-size:12pt;" widgetVar="docs"
+						scrollable="true" scrollWidth="1200">
+						<f:facet name="header">
+
+							<h:commandLink>
+								<h:graphicImage value="/Imagenes/excel.png" width="24px" />
+								<p:dataExporter type="xls" target="tablaStock"
+									fileName="InformeStock" />
+							</h:commandLink>
+
+						</f:facet>
+						<p:column headerText="Fecha" width="100">
+							<h:outputText value="#{prod.fecha}" />
+						</p:column>
+						<p:column headerText="Nombre" width="100">
+							<h:outputText value="#{prod.producto.nombre}" />
+						</p:column>
+						<p:column headerText="Codigo" width="100">
+							<h:outputText value="#{prod.producto.codigo}" />
+						</p:column>
+						<p:column headerText="Familia" width="100">
+							<h:outputText value="#{prod.producto.tipoProducto.codigo}" />
+						</p:column>
+						<p:column headerText="Presentacion" width="100">
+							<h:outputText value="#{prod.producto.presentacion}" />
+						</p:column>
+						<p:column headerText="Cantidad por caja" width="100">
+							<h:outputText value="#{prod.producto.cantidadPorCaja}" />
+						</p:column>
+						<p:column headerText="Stock minimo" width="100">
+							<h:outputText value="#{prod.producto.stockMinimo}" />
+						</p:column>
+						<p:column headerText="Cantidad (und)" width="70">
+							<h:outputText value="#{prod.cantidad}" />
+						</p:column>
+						<p:column headerText="precio unitario" width="100">
+							$ <h:outputText value="#{prod.precio}">
+								<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Establecimiento" width="100">
+							<h:outputText value="#{prod.producto.establecimiento}" />
+						</p:column>
+
+						<p:column headerText="Bodega" width="70">
+							<h:outputText value="#{prod.bodega.nombre}" />
+						</p:column>
+						<p:column headerText="Destino" width="70">
+							<h:outputText value="#{prod.destino}" />
+						</p:column>
+
+
+
+						<p:column headerText="Usuario" width="100">
+							<h:outputText value="#{prod.usuario.nombreIntegrado}" />
+						</p:column>
+
+
+
+
+					</p:dataTable>
+				</p:panel>
+			</p:panel>
+		</h:form>
+	</ui:define>
+	<ui:define name="footer">
+
+	</ui:define>
+</ui:composition>

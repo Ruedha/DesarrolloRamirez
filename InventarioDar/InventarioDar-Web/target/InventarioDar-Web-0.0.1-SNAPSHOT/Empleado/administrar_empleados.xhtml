@@ -1,0 +1,92 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasic" header="Administracion de empleados">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+
+				<p:panel id="basic">
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+					<h:panelGrid columns="2">
+
+
+						<p:outputLabel value="Nombre empleado" />
+						<p:inputText id="nombre" value="#{empleadoAction.nombreCompleto}"></p:inputText>
+
+						<p:outputLabel value="Numero contacto" />
+						<p:inputText id="contactoNumero"
+							value="#{empleadoAction.numeroContacto}"></p:inputText>
+
+						<p:outputLabel value="Direccion" />
+						<p:inputText id="direccion" value="#{empleadoAction.direccion}"></p:inputText>
+
+
+
+						<p:commandButton value="Guardar " icon="ui-icon-check"
+							action="#{empleadoAction.registrarEmpleado()}" update="@form"></p:commandButton>
+
+						<p:commandButton value="Cancelar" icon="ui-icon-circle-close"
+							action="#{empleadoAction.limpiarCampos}" update="@form"></p:commandButton>
+					</h:panelGrid>
+
+					<br></br>
+
+
+					<p:dataTable id="tablaTiposDocs"
+						value="#{empleadoAction.listaEmpleados}" var="tipDoc"
+						style="font-size:10pt;" tableStyle="width:500px;">
+
+
+						<p:column headerText="Nombre empleado" style="width:150px;">
+							<h:outputText value="#{tipDoc.nombreCompleto}" />
+						</p:column>
+
+						<p:column headerText="Numero contacto" style="width:150px;">
+							<h:outputText value="#{tipDoc.numeroContacto}" />
+						</p:column>
+
+						<p:column headerText="Direccion" style="width:150px;">
+							<h:outputText value="#{tipDoc.direccion}" />
+						</p:column>
+
+						<p:column headerText="Editar" style="width:120px;">
+							<center>
+								<p:commandButton icon="ui-icon-pencil"
+									action="#{empleadoAction.empleadoSeleccionado(tipDoc)}"
+									update="@form"></p:commandButton>
+							</center>
+
+						</p:column>
+
+					</p:dataTable>
+
+				</p:panel>
+
+			</p:panel>
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>

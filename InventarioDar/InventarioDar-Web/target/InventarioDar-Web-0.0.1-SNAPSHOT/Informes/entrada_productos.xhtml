@@ -1,0 +1,173 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasico"
+				header="Movimientos de entradas de productos">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<p:outputLabel value="Fecha Inicial: " for="fechaIni" />
+
+						<p:calendar id="fechaIni" yearRange="c-80:c+20"
+							value="#{informesAction.fechaInicial}" timeZone="GMT-5"
+							pattern="dd/MM/yyyy 00:00:00" />
+
+						<p:outputLabel value="Fecha Final: " for="fechaFin" />
+
+						<p:calendar id="fechaFin" yearRange="c-80:c+20"
+							value="#{informesAction.fechaFinal}" timeZone="GMT-5"
+							pattern="dd/MM/yyyy 23:59:00" />
+
+						<h:outputText value="Tipo" />
+						<p:selectOneMenu value="#{informesAction.codigoTipo}"
+							id="seguroSelectOneMenu" var="producto" filter="true"
+							filterMatchMode="startsWith" navigator="true" effect="fade"
+							style="width: 269px;">
+
+							<f:selectItem itemValue="#{null}"
+								itemLabel="Seleccione el Tipo de Producto" />
+
+							<f:selectItems value="#{informesAction.listaTipoProductos}"
+								var="producto" itemLabel="#{producto.codigo}"
+								itemValue="#{producto}" />
+							<p:column>
+								<h:outputText value="#{producto.codigo}" />
+							</p:column>
+						</p:selectOneMenu>
+						<p:commandButton value="Buscar" icon="ui-icon-check"
+							action="#{informesAction.listarEntradasXTipoOFecha}"
+							update="@form">
+
+						</p:commandButton>
+
+
+					</h:panelGrid>
+					<br></br>
+					<br></br>
+					<br></br>
+
+
+					<p:dataTable id="tablaStock"
+						value="#{informesAction.listaEntradas}" var="prod"
+						style="font-size:12pt;" widgetVar="docs" scrollable="true"
+						scrollWidth="1200">
+						<f:facet name="header">
+
+							<h:commandLink>
+								<h:graphicImage value="/Imagenes/excel.png" width="24px" />
+								<p:dataExporter type="xls" target="tablaStock"
+									fileName="InformeStock" />
+							</h:commandLink>
+
+						</f:facet>
+						<p:column headerText="Fecha" width="100">
+							<h:outputText value="#{prod.fecha}" />
+						</p:column>
+
+						<p:column headerText="Numero Factura" width="80">
+							<h:outputText value="#{prod.numeroFactura}" />
+						</p:column>
+
+						<p:column headerText="Ubicacion" width="70">
+							<h:outputText value="#{prod.ubicacion}" />
+						</p:column>
+
+						<p:column headerText="Proveedor" width="100">
+							<h:outputText value="#{prod.proveedor.nombre}" />
+						</p:column>
+
+						<p:column headerText="Usuario" width="100">
+							<h:outputText value="#{prod.usuario.nombreIntegrado}" />
+						</p:column>
+						<p:column headerText="valor total " width="120">
+							$ <h:outputText value="#{prod.total}">
+								<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Documento" width="100">
+							<p:commandButton value="ver Documento" ajax="false"
+								action="#{informesAction.verDocumento(prod)}" update="@form"
+								onclick="form.target='_blank'" />
+
+
+						</p:column>
+
+						<p:column headerText="Productos" width="100">
+							<p:commandButton value="ver productos"
+								action="#{informesAction.verProductosPorEntrada(prod)}"
+								update=":idForm2" onclick="PF('dlg2').show();" />
+
+						</p:column>
+
+
+
+					</p:dataTable>
+				</p:panel>
+			</p:panel>
+		</h:form>
+
+		<p:dialog header="Productos que entraron" widgetVar="dlg2"
+			id="dialogo" appendTo="@(body)" width="400px" height="350px"
+			modal="true">
+			<h:form id="idForm2">
+				<p:dataTable id="tablaStock"
+					value="#{informesAction.listaProductosXEntrada}" var="prod"
+					style="font-size:12pt;" widgetVar="docs">
+					<f:facet name="header">
+
+						<h:commandLink>
+							<h:graphicImage value="/Imagenes/excel.png" width="24px" />
+							<p:dataExporter type="xls" target="tablaStock"
+								fileName="InformeStock" />
+						</h:commandLink>
+
+					</f:facet>
+
+					<p:column headerText="Nombre">
+						<h:outputText value="#{prod.producto.nombre}" />
+					</p:column>
+
+					<p:column headerText="Cantidad">
+						<h:outputText value="#{prod.cantidad}" />
+					</p:column>
+
+					<p:column headerText="Precio unitario">
+						<h:outputText value="#{prod.precioUnitario}" />
+					</p:column>
+
+					<p:column headerText="Total">
+						<h:outputText value="#{prod.precioTotal}" />
+					</p:column>
+
+
+				</p:dataTable>
+
+			</h:form>
+		</p:dialog>
+	</ui:define>
+	<ui:define name="footer">
+
+	</ui:define>
+</ui:composition>

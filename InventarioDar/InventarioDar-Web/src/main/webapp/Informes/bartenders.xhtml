@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasico" header="Control de bartender">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+
+					<br></br>
+
+					<p:dataTable id="tablaStock"
+						value="#{informesAction.listaBartenders}" var="prod"
+						style="font-size:12pt;" widgetVar="docs" scrollable="true"
+						scrollWidth="950">
+						<f:facet name="header">
+
+							<h:commandLink>
+								<h:graphicImage value="/Imagenes/excel.png" width="24px" />
+								<p:dataExporter type="xls" target="tablaStock"
+									fileName="InformeBartender" />
+							</h:commandLink>
+
+						</f:facet>
+
+
+
+						<p:column headerText="Bar" width="100">
+							<h:outputText value="#{prod.bar}" />
+						</p:column>
+
+						<p:column headerText="Nombre" width="100">
+							<h:outputText value="#{prod.nombre}" />
+						</p:column>
+
+						<p:column headerText="Fecha" width="100">
+							<h:outputText value="#{prod.fecha}" />
+						</p:column>
+
+						<p:column headerText="DrinkTix" width="100">
+							<h:outputText value="#{prod.drinkTix}" />
+						</p:column>
+
+						<p:column headerText="MgrComp" width="100">
+							<h:outputText value="#{prod.mgrComp}" />
+						</p:column>
+
+
+						<p:column headerText="Cortesy" width="100">
+							<h:outputText value="#{prod.cortesy}" />
+						</p:column>
+
+						<p:column headerText="OpenAjustments" width="100">
+							<h:outputText value="#{prod.openAjustments}" />
+						</p:column>
+
+						<p:column headerText="OpenPromotorComp" width="100">
+							<h:outputText value="#{prod.openPromotorComp}" />
+						</p:column>
+
+
+					</p:dataTable>
+				</p:panel>
+			</p:panel>
+		</h:form>
+	</ui:define>
+	<ui:define name="footer">
+
+	</ui:define>
+</ui:composition>

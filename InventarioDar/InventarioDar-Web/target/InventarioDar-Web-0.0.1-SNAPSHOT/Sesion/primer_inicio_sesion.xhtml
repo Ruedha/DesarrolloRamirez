@@ -1,0 +1,73 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template2.xhtml">
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="body">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasic" header="Cambiar password" style="width">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+
+				<p:panel id="basic">
+					<p:separator />
+
+					<h:panelGrid columns="2">
+
+						<p:outputLabel value="Login:" />
+						<p:inputText id="loginRecuperar" value="#{sesionAction.login}"
+							disabled="true"></p:inputText>
+
+
+						<p:outputLabel value="Password Nuevo:" />
+						<p:password id="passNuevo"
+							value="#{sesionAction.passwordNuevoPrimeraVez}"></p:password>
+
+						<p:outputLabel value="Confirmar Password:" />
+						<p:password id="passConfirmar"
+							value="#{sesionAction.confirmarPasswordNuevoPrimeraVez}"></p:password>
+
+						<p:commandButton value="Aceptar" icon="ui-icon-check"
+							action="#{sesionAction.cambiarPasswordPrimeraVez}" update="@form">
+
+							<p:confirm header="Confirmar" message="Esta seguro?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<center>
+								<p:commandButton value="Si" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="No" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</center>
+						</p:confirmDialog>
+
+
+					</h:panelGrid>
+
+					<p:separator />
+
+
+				</p:panel>
+
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>

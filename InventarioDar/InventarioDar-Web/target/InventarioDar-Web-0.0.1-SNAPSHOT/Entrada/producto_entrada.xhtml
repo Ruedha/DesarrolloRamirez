@@ -1,0 +1,217 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1" enctype="multipart/form-data">
+
+			<p:panel id="panelBasico" header="Registrar Entradas">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="fa fa-plus"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<h:outputText value="Producto" />
+						<p:commandButton value="Agregar productos" type="button"
+							onclick="PF('dlg2').show();" />
+
+						<h:outputText value="Proveedor" />
+						<p:selectOneMenu value="#{entradaAction.idProveedor}"
+							id="proveedorSelectOneMenu" var="proveedor" filter="true"
+							filterMatchMode="startsWith" navigator="true" effect="fade"
+							style="width: 269px;">
+
+							<f:selectItem itemValue="#{null}"
+								itemLabel="Seleccione el proveedor" />
+
+							<f:selectItems value="#{entradaAction.listaProveedores}"
+								var="proveedor" itemLabel="#{proveedor.nombre}"
+								itemValue="#{proveedor}" />
+							<p:column>
+								<h:outputText value="#{proveedor.nombre}" />
+							</p:column>
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Ubicacion" for="ubicacion" />
+						<p:inputText id="ubicacion" value="#{entradaAction.ubicacion}"
+							label="ubicacion" required="true"
+							requiredMessage="- El campo Ubicacion es obligatorio.">
+
+						</p:inputText>
+
+
+						<p:outputLabel value="Numero Factura" for="numFac" />
+						<p:inputText id="numFac" value="#{entradaAction.numeroFactura}"
+							label="numFac" required="true"
+							requiredMessage="- El campo numero factura es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel value="Documento" />
+						<p:fileUpload style="background-color: #0A9C62;"
+							fileUploadListener="#{entradaAction.cargarDocumento}"
+							uploadLabel="Aceptar" chooseLabel="Abrir archivo"
+							label="Cargar documento" description="Seleccionar Archivo"
+							allowTypes="/(\.|\/)(gif|jpe?g|png|doc|docx|xls|xlsx|pdf|tif)$/"
+							update="@this" />
+						<br />
+
+					</h:panelGrid>
+
+					<br></br>
+
+					<p:commandButton value="Registrar" icon="ui-icon-check"
+						action="#{entradaAction.registrarEntrada}" update="@form">
+						<p:confirm header="Confirmar" message="Esta seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:commandButton value="Cancelar" icon="ui-icon-check"
+						action="#{entradaAction.limpiarCamposCancelar}" update="@form">
+
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Si" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+
+				</p:panel>
+
+				<br></br>
+
+			</p:panel>
+
+
+
+
+		</h:form>
+
+
+		<p:dialog header="Adicionar productos" widgetVar="dlg2" id="dialogo"
+			width="1003px;" appendTo="@(body)" height="350px" modal="true">
+			<h:form id="idForm2">
+				<p:messages id="messages" autoUpdate="true" closable="true"
+					style="font-size: 15px;" />
+				<h:panelGrid columns="2" id="panelGridCamposDialog">
+
+
+					<h:outputText value="Producto" />
+					<p:selectOneMenu value="#{entradaAction.idProducto}"
+						id="seguroSelectOneMenu" var="producto" filter="true"
+						filterMatchMode="startsWith" navigator="true" effect="fade"
+						style="width: 269px;">
+
+
+
+						<f:selectItem itemValue="#{null}"
+							itemLabel="Seleccione el Producto" />
+
+						<f:selectItems value="#{entradaAction.listaProductos}"
+							var="producto" itemLabel="#{producto.nombre}"
+							itemValue="#{producto}" />
+						<p:column>
+							<h:outputText
+								value="#{producto.nombre} - #{producto.presentacion}" />
+						</p:column>
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Cantidad" for="cantidad" />
+					<p:inputText id="cantidad" value="#{entradaAction.cantidad}"
+						label="cantidad" required="true"
+						requiredMessage="- El campo cantidad es obligatorio.">
+
+					</p:inputText>
+
+					<p:outputLabel value="Valor unitario ($)" for="valor" />
+					<p:inputText id="valor" value="#{entradaAction.valorUnitario}"
+						label="valor" required="true"
+						requiredMessage="- El campo valor es obligatorio.">
+
+					</p:inputText>
+
+					<p:commandButton value="Agregar" update=":idForm2"
+						actionListener="#{entradaAction.agregarProductos()}">
+					</p:commandButton>
+
+				</h:panelGrid>
+				<br></br>
+
+				<p:dataTable id="tablaDetalle"
+					rendered="#{entradaAction.detalleProducto}"
+					value="#{entradaAction.listaProductosAgregados}" var="prod"
+					style="font-size:12pt;" widgetVar="det" scrollable="true"
+					scrollWidth="950">
+
+					<p:column headerText="Presentacion" width="100">
+						<h:outputText value="#{prod.presentacion}" />
+					</p:column>
+					<p:column headerText="Codigo" width="100">
+						<h:outputText value="#{prod.codigo}" />
+					</p:column>
+
+					<p:column headerText="Nombre" width="100">
+						<h:outputText value="#{prod.nombre}" />
+					</p:column>
+					<p:column headerText="Cantidad Solicitada" width="100">
+						<h:outputText value="#{prod.cantidadTemporal}" />
+					</p:column>
+					<p:column headerText="Valor unitario" width="100">
+							$<h:outputText value="#{prod.valorUnitarioTemporal}">
+							<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Valor total" width="100">
+							$<h:outputText value="#{prod.valorTotalTemporal}">
+							<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Eliminar del pedido" width="100">
+						<center>
+							<p:commandButton update=":idForm2" icon="ui-icon-close"
+								actionListener="#{entradaAction.eliminarProductoAgregado(prod)}">
+							</p:commandButton>
+						</center>
+					</p:column>
+
+				</p:dataTable>
+
+				<h1>
+					<h:outputText value="Total: $ #{entradaAction.valorTotal}" />
+				</h1>
+
+				<p:commandButton value="Aceptar" type="button"
+					onclick="PF('dlg2').hide();" />
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>
+

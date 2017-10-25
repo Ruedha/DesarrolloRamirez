@@ -1,0 +1,235 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasico" header="Administrar Producto">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<p:outputLabel value="Nombre" for="nombre" />
+						<p:inputText id="nombre" value="#{productoAction.nombre}"
+							label="nombre" required="true"
+							requiredMessage="- El campo nombre es obligatorio.">
+
+						</p:inputText>
+
+						<h:outputText value="Familia" />
+						<p:selectOneMenu value="#{productoAction.codigoTipo}"
+							id="seguroSelectOneMenu" var="producto" filter="true"
+							filterMatchMode="startsWith" navigator="true" effect="fade"
+							style="width: 269px;">
+
+							<f:selectItem itemValue="#{null}"
+								itemLabel="Seleccione el Tipo de Producto" />
+
+							<f:selectItems value="#{productoAction.listaTipoProductos}"
+								var="producto" itemLabel="#{producto.codigo}"
+								itemValue="#{producto}" />
+							<p:column>
+								<h:outputText value="#{producto.codigo}" />
+							</p:column>
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Codigo" for="codigo" />
+						<p:inputText id="codigo" value="#{productoAction.codigo}"
+							label="codigo" required="true"
+							requiredMessage="- El campo codigo es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel value="Presentacion" for="presentacion" />
+						<p:inputText id="presentacion"
+							value="#{productoAction.presentacion}" label="codigo"
+							required="true"
+							requiredMessage="- El campo presentacion es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel value="Cantidad por caja" for="cpj" />
+						<p:inputText id="cpj" value="#{productoAction.cantidadPorCaja}"
+							label="cpj" required="true"
+							requiredMessage="- El campo Cantidad Por Caja es obligatorio.">
+
+						</p:inputText>
+
+
+						<p:outputLabel value="Stock Minimo" for="stockMinimo" />
+						<p:inputText id="stockMinimo"
+							value="#{productoAction.stockMinimo}" label="stockMinimo"
+							required="true"
+							requiredMessage="- El campo stock Minimo es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel for="console" value="Establecimiento:" />
+						<p:selectOneRadio id="console"
+							value="#{productoAction.establecimiento}" required="true"
+							requiredMessage="Debe seleccionar el establecimiento">
+							<f:selectItem itemLabel="Restaurante" itemValue="RESTAURANTE" />
+							<f:selectItem itemLabel="Bar" itemValue="CLUB" />
+
+						</p:selectOneRadio>
+
+
+
+					</h:panelGrid>
+
+					<br></br>
+
+					<p:commandButton value="Registrar" icon="ui-icon-check"
+						action="#{productoAction.registrarProducto}" update="@form">
+						<p:confirm header="Confirmar" message="Esta seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:commandButton value="masivos" icon="ui-icon-check"
+						action="#{productoAction.insertarMasivos}" update="@form">
+						<p:confirm header="Confirmar" message="Esta seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Si" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</p:panel>
+
+				<br></br>
+
+
+				<p:dataTable id="prod" var="prod"
+					value="#{productoAction.listaProductos}" editable="true"
+					style="margin-bottom:20px" rows="10" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					<f:facet name="header">
+			        Editar Producto
+			       </f:facet>
+
+					<p:ajax event="rowEdit" listener="#{productoAction.onRowEdit}"
+						update=":idForm1" />
+					<p:ajax event="rowEditCancel"
+						listener="#{productoAction.onRowCancel}" update="@form" />
+
+					<p:column headerText="Nombre">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{prod.nombre}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{prod.nombre}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Codigo">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{prod.codigo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{prod.codigo}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Presentacion">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{prod.presentacion}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{prod.presentacion}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Cantidad por caja">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{prod.cantidadPorCaja}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{prod.cantidadPorCaja}" style="width:70%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Stock minimo">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{prod.stockMinimo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{prod.stockMinimo}" style="width:70%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Familia">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{prod.tipoProducto.codigo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{prod.tipoProducto.codigo}"
+									id="seguroSelectOneMenu" var="producto" filter="true"
+									filterMatchMode="startsWith" navigator="true" effect="fade"
+									style="width: 269px;">
+
+									<f:selectItem itemValue="#{null}"
+										itemLabel="Seleccione el Tipo de Producto" />
+
+									<f:selectItems value="#{productoAction.listaTipoProductos}"
+										var="producto" itemLabel="#{producto.codigo}"
+										itemValue="#{producto}" />
+									<p:column>
+										<h:outputText value="#{producto.codigo}" />
+									</p:column>
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+
+
+
+
+					<p:column style="width:50px">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>
+

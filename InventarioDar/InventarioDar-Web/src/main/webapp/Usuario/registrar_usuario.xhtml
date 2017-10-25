@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasico" header="Registrar usuario">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<p:outputLabel value="Cedula" for="cedula" />
+						<p:inputText id="cedula" value="#{userAction.cedula}"
+							label="cedula" required="true"
+							requiredMessage="- El campo cedula es obligatorio."
+							validatorMessage="- Solo numeros en el campo Cedula.">
+
+							<f:validateRegex pattern="[0-9]*" />
+						</p:inputText>
+
+
+
+						<p:outputLabel value="Nombres:" for="nombre" />
+						<p:inputText id="nombre" value="#{userAction.nombre}"
+							label="nombre" required="true"
+							requiredMessage="- El campo nombre es obligatorio."
+							validatorMessage="- Solo letras en el campo nombre.">
+
+							<f:validateRegex pattern="[a-zA-Z ]+" />
+						</p:inputText>
+
+						<p:outputLabel value="Primer apellido:" for="primerApellido" />
+						<p:inputText id="primerApellido"
+							value="#{userAction.primerApellido}" label="primerApellido"
+							required="true"
+							requiredMessage="- El campo pimer apellido es obligatorio."
+							validatorMessage="- Solo letras en el campo Primer apellido.">
+							<f:validateRegex pattern="[a-zA-Z ]+" />
+
+						</p:inputText>
+
+						<p:outputLabel value="Segundo apellido:" />
+						<p:inputText id="segundoApellido"
+							value="#{userAction.segundoApellido}"
+							validatorMessage="- Solo letras en el campo Segundo apellido.">
+							<f:validateRegex pattern="[a-zA-Z ]+" />
+						</p:inputText>
+
+						<p:outputLabel value="Email: *" for="email" />
+						<p:inputText id="email" value="#{userAction.email}" label="email"
+							requiredMessage="El Email es requerido."
+							validatorMessage="- Formato de email invalido.">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+
+
+						<p:outputLabel value="Login: " for="login" />
+						<p:inputText id="login" value="#{userAction.login}" label="login"
+							required="true"
+							requiredMessage="- El campo Login no puede ser nulo."></p:inputText>
+
+						<p:outputLabel value="Administrador? " />
+						<p:selectBooleanCheckbox value="#{userAction.administrador}"
+							id="idCheckAdmin">
+						</p:selectBooleanCheckbox>
+
+						<p:outputLabel value="Usuario hookah? " />
+						
+							<p:selectBooleanCheckbox value="#{userAction.usuarioHookah}"
+								id="idCheckHookah">
+							</p:selectBooleanCheckbox>
+					</h:panelGrid>
+
+					<br></br>
+
+					<p:commandButton value="Registrar" icon="ui-icon-check"
+						action="#{userAction.registrarUsuario}" update="@form">
+						<p:confirm header="Confirmar" message="Esta seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Si" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</p:panel>
+
+				<br></br>
+
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>
+

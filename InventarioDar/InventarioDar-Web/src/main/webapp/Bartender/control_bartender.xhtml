@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasico" header="Control de bartender">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+
+					<h:panelGrid columns="2" id="panelGridCampos">
+
+						<p:outputLabel value="Bar" for="bar" />
+						<p:inputText id="bar" value="#{bartenderAction.bar}" label="bar"
+							required="true" requiredMessage="- El campo bar es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel value="Nombre" for="nombre" />
+						<p:inputText id="nombre" value="#{bartenderAction.nombre}"
+							label="nombre" required="true"
+							requiredMessage="- El campo nombre es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel value="Cortesy" for="cortesy" />
+						<p:inputText id="cortesy" value="#{bartenderAction.cortesy}"
+							label="cortesy" required="true"
+							requiredMessage="- El campo cortesy es obligatorio.">
+
+						</p:inputText>
+
+
+						<p:outputLabel value="DrinkTix" for="DrinkTix" />
+						<p:inputText id="DrinkTix" value="#{bartenderAction.drinkTix}"
+							label="DrinkTix" required="true"
+							requiredMessage="- El campo DrinkTix es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel value="MgrComp" for="mgrComp" />
+						<p:inputText id="mgrComp" value="#{bartenderAction.mgrComp}"
+							label="mgrComp" required="true"
+							requiredMessage="- El campo mgrComp es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel value="openAjustments" for="openAjustments" />
+						<p:inputText id="openAjustments"
+							value="#{bartenderAction.openAjustments}" label="openAjustments"
+							required="true"
+							requiredMessage="- El campo openAjustments es obligatorio.">
+
+						</p:inputText>
+
+						<p:outputLabel value="openPromotorComp" for="openPromotorComp" />
+						<p:inputText id="openPromotorComp"
+							value="#{bartenderAction.openPromotorComp}"
+							label="openPromotorComp" required="true"
+							requiredMessage="- El campo openPromotorComp es obligatorio.">
+
+						</p:inputText>
+
+					</h:panelGrid>
+
+					<br></br>
+
+					<p:commandButton value="Registrar" icon="ui-icon-check"
+						action="#{bartenderAction.registrarBartender}" update="@form">
+						<p:confirm header="Confirmar" message="Esta seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Si" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+
+
+				</p:panel>
+
+				<br></br>
+
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/layout/template.xhtml">
+
+
+	<ui:param name="form" value="formato_form" />
+
+	<ui:define name="content">
+
+
+		<h:form id="idForm1">
+
+			<p:panel id="panelBasico" header="Stock de productos">
+
+				<p:panel id="basic">
+					<p:messages id="messages" autoUpdate="true" closable="true"
+						style="font-size: 15px;" />
+					<div align="right">
+						<p:commandButton icon="ui-icon-arrow-1-w"
+							onclick="window.history.back();" immediate="true" />
+					</div>
+					<h:panelGrid columns="2" id="panelGridCampos">
+						<h:outputText value="Familia" />
+						<p:selectOneMenu value="#{informesAction.codigoTipo}"
+							id="seguroSelectOneMenu" var="producto" filter="true"
+							filterMatchMode="startsWith" navigator="true" effect="fade"
+							style="width: 269px;">
+
+							<f:selectItem itemValue="#{null}"
+								itemLabel="Seleccione el Tipo de Producto" />
+
+							<f:selectItems value="#{informesAction.listaTipoProductos}"
+								var="producto" itemLabel="#{producto.codigo}"
+								itemValue="#{producto}" />
+							<p:column>
+								<h:outputText value="#{producto.codigo}" />
+							</p:column>
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Establecimiento:" />
+						<p:selectOneRadio id="console"
+							value="#{informesAction.establecimiento}">
+							<f:selectItem itemLabel="Restaurante" itemValue="RESTAURANTE" />
+							<f:selectItem itemLabel="Bar" itemValue="BAR" />
+
+						</p:selectOneRadio>
+
+						<p:commandButton value="Buscar" icon="ui-icon-check"
+							action="#{informesAction.listarStockProductosXTipoOFecha}"
+							update="@form">
+
+						</p:commandButton>
+
+
+					</h:panelGrid>
+					<br></br>
+					<br></br>
+					<br></br>
+
+					<p:dataTable id="tablaStock"
+						value="#{informesAction.listaProductos}" var="prod"
+						style="font-size:12pt;" widgetVar="docs" scrollable="true"
+						scrollWidth="950">
+						<f:facet name="header">
+
+							<h:commandLink>
+								<h:graphicImage value="/Imagenes/excel.png" width="24px" />
+								<p:dataExporter type="xls" target="tablaStock"
+									fileName="InformeStock" />
+							</h:commandLink>
+
+						</f:facet>
+
+						<p:column headerText="Codigo/Referencia" width="100">
+							<h:outputText value="#{prod.codigo}" />
+						</p:column>
+						<p:column headerText="Nombre" width="100">
+							<h:outputText value="#{prod.nombre}" />
+						</p:column>
+						<p:column headerText="Familia" width="100">
+							<h:outputText value="#{prod.tipoProducto.codigo}" />
+						</p:column>
+
+						<p:column headerText="Presentacion" width="100">
+							<h:outputText value="#{prod.presentacion}" />
+						</p:column>
+
+						<p:column headerText="Stock Minimo" width="100">
+							<h:outputText value="#{prod.stockMinimo}" />
+						</p:column>
+
+						<p:column headerText="Cantidad Por Caja" width="100">
+							<h:outputText value="#{prod.cantidadPorCaja}" />
+						</p:column>
+						<p:column headerText="Cantidad (und)" width="100">
+							<h:outputText value="#{prod.cantidad}" />
+						</p:column>
+
+
+
+						<p:column headerText="Saldo Actual" width="100">
+							$<h:outputText value="#{prod.saldoActual}">
+								<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							Saldo total: $ <h:outputText value="#{informesAction.saldoTotal}">
+								<f:convertNumber pattern="#,###,###,##0.00" locale="pt_BR" />
+							</h:outputText>
+
+						</f:facet>
+
+
+					</p:dataTable>
+				</p:panel>
+			</p:panel>
+		</h:form>
+	</ui:define>
+	<ui:define name="footer">
+
+	</ui:define>
+</ui:composition>
